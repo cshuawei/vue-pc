@@ -1,25 +1,22 @@
-const global = require('./global.config')
-const proxy = {}
-
 const env = process.env.NODE_ENV
-if (env === 'mock') {
-  proxy[global.mockPublicPath] = {
-    target: 'https://' + global.mockDomain,
-    changeOrigin: true // 允许使用localhost
-  }
-} else {
-  proxy[global.devPublicPath] = {
-    target: 'https://' + global.devDomain,
+const proxyPath = process.env.VUE_APP_PROXY_PATH
+const proxy = {
+  '/admin/': {
+    target: `https://${proxyPath}paas-app-admin.e-buy.com`,
     changeOrigin: true // 允许使用localhost
   }
 }
 
 module.exports = {
-  publicPath: (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') ? global.secondLevelDir : '/',
+  publicPath: '/',
   devServer: {
     proxy
   },
-  "transpileDependencies": [ // 通过Babel显式转译一个依赖
-    "vuetify"
-  ]
+  configureWebpack: {
+    devtool: env === 'production' ? undefined : 'eval-source-map'
+  },
+  chainWebpack: config => {
+    config.resolve.alias
+      .set('~', 'vue-superset/es/pc')
+  }
 }

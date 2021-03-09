@@ -51,7 +51,6 @@
             color="#fff"
             v-model="item.active"
             :prepend-icon="item.icon"
-            no-action
           >
             <template v-slot:activator>
               <v-list-item-content>
@@ -135,11 +134,11 @@
         ></side-bar-set>
       </v-menu>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
-    </v-content>
+    </v-main>
     <cm-toast></cm-toast>
     <cm-loader></cm-loader>
   </v-app>
